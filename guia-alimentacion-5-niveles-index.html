@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f7f2">
+<meta name="description" content="Guía visual de alimentos organizada en cinco niveles, con buscador y navegación móvil.">
+<title>Guía de alimentos · 5 niveles</title>
+<style>
+:root{--ink:#1c2b22;--muted:#68776d;--paper:#f5f7f2;--line:#e4eae1;--green:#246744}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:145px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.hero{max-width:1120px;margin:auto;padding:26px 20px 20px;display:grid;grid-template-columns:1fr .92fr;gap:24px;align-items:center}
+.kicker{font-size:11px;letter-spacing:.17em;font-weight:850;color:#477957;text-transform:uppercase}
+h1{font-size:clamp(36px,6vw,62px);letter-spacing:-.055em;line-height:.98;margin:13px 0;color:#193b28}
+h1 span{color:#66975f}
+.intro{max-width:470px;color:#627168;font-size:15px;line-height:1.6;margin:0}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:9px 14px;background:#e4eee1;color:#315f3d;border-radius:30px;font-size:12px;font-weight:800}
+.hero-image{height:260px;border-radius:28px;background:linear-gradient(0deg,#142d1c12,#142d1c00),url("https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=1200&q=85") center/cover;box-shadow:0 16px 40px #263c281c}
+.sticky{position:sticky;top:0;z-index:10;background:#f5f7f2ed;backdrop-filter:blur(14px);border-top:1px solid #e8ede5;border-bottom:1px solid #e1e8df;padding:11px 15px}
+.tools{max-width:1080px;margin:auto;display:flex;gap:10px;align-items:center}
+.search-wrap{position:relative;flex:1}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:17px;color:#55705b}
+input[type=search]{width:100%;border:1px solid #dce5d9;background:white;border-radius:30px;padding:14px 16px 14px 43px;font-size:15px;outline:none;box-shadow:0 4px 14px #233a2410}
+input[type=search]:focus{border-color:#75a17a;box-shadow:0 0 0 3px #75a17a22}
+.counter{font-size:12px;font-weight:800;color:#526654;background:#e8eee5;border-radius:30px;padding:10px 12px;white-space:nowrap}
+nav{max-width:1080px;margin:10px auto 0;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;color:#435648;background:white;border:1px solid #e2e9df;border-radius:30px;padding:8px 13px;font-size:12px;font-weight:800}
+nav a:hover{background:#e8f0e5}
+main{max-width:1080px;margin:auto;padding:20px 15px 36px}
+.level{--accent:#27744b;--tint:#e8f3eb;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;margin:0 0 18px;box-shadow:0 9px 28px #253c2510;scroll-margin-top:150px}
+.level-head{position:relative;isolation:isolate;min-height:112px;padding:19px 20px;display:flex;align-items:center;gap:13px;background:linear-gradient(90deg,var(--tint) 0%,#ffffffeb 72%,#ffffffd9 100%);overflow:hidden}
+.level-head:after{content:"";position:absolute;z-index:-1;right:0;top:0;width:45%;height:100%;background-image:var(--level-image);background-size:cover;background-position:center;mask-image:linear-gradient(90deg,transparent 0%,#000 50%);opacity:.56}
+.level-number{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:20px;font-weight:900;box-shadow:0 5px 14px #1c342322;flex:none}
+.level-title{font-size:17px;font-weight:900;margin:0 0 5px}
+.level-count{font-size:12px;color:#5e6f63;font-weight:650}
+.foods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:16px;padding:9px 18px 17px}
+.food{display:flex;align-items:center;gap:9px;min-width:0;min-height:45px;padding:8px 5px;border-bottom:1px solid #eff2ed;font-size:13px;line-height:1.3;overflow-wrap:anywhere}
+.food[hidden]{display:none}
+.food-emoji{width:24px;flex:none;text-align:center;font-size:18px}
+.food-name{min-width:0}
+.empty{display:none;background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;text-align:center;color:var(--muted)}
+.note{max-width:900px;margin:0 auto 26px;padding:15px 17px;border-radius:16px;background:#eaf0e7;color:#617064;font-size:11px;line-height:1.6;text-align:center}
+footer{text-align:center;color:#879187;font-size:11px;padding:0 15px 28px}
+@media(max-width:700px){.hero{grid-template-columns:1fr;padding:22px 16px 16px;gap:15px}.hero-image{height:150px;border-radius:21px}.hero h1{font-size:43px}.intro{font-size:14px}.foods{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px;padding:7px 12px 13px}.food{font-size:12px;min-height:42px;padding:8px 2px;gap:6px}.food-emoji{font-size:16px;width:21px}.level-head{min-height:100px;padding:15px}.level-head:after{width:50%;opacity:.46}.level-title{font-size:15px}.counter{font-size:11px;padding:9px 10px}}
+@media(max-width:360px){.foods{grid-template-columns:1fr}.hero h1{font-size:37px}.hero-image{height:125px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div>
+    <div class="kicker">Guía visual · consulta rápida</div>
+    <h1>Alimentación<br><span>en 5 niveles</span></h1>
+    <p class="intro">Una forma sencilla de explorar los alimentos de tu listado, organizados por niveles y con búsqueda instantánea.</p>
+    <div class="hero-pill">🌿 <strong>234 alimentos</strong> · cinco categorías</div>
+  </div>
+  <div class="hero-image" role="img" aria-label="Fotografía de alimentos frescos y vegetales"></div>
+</header>
+<div class="sticky">
+  <div class="tools">
+    <div class="search-wrap"><span class="search-icon">⌕</span><input id="search" type="search" placeholder="Buscar un alimento…" aria-label="Buscar un alimento"></div>
+    <span id="counter" class="counter">234 alimentos</span>
+  </div>
+  <nav id="nav" aria-label="Navegar por niveles"></nav>
+</div>
+<main id="main">
+  <div class="empty" id="empty">No se han encontrado alimentos con esa búsqueda.</div>
+</main>
+<p class="note">La clasificación reproduce el contenido del Excel proporcionado. Es una organización orientativa y no una clasificación médica validada del efecto de los alimentos sobre el pH corporal.</p>
+<footer>Guía de consulta personal · Adaptada a móvil y ordenador</footer>
+<script>
+const data = [["Achicoria", "Agua de mar", "Agua manantial", "Aguacate", "Ajo", "Albahaca", "Algas marinas", "Almendra cruda", "Aloe vera", "Apio", "Baya goji", "Bicarbonato de sodio", "Brocoli", "Calabacin", "Cebolla roja", "Col lombarda", "Espinacas", "Germinados", "Granos de mostaza", "Hojas verdes", "Infusiones", "Kalanchoe", "Laurel", "Lima", "Limón", "Malva", "Orégano", "Pepino", "Perejil", "Pimiento verde", "Pino", "Polen", "Pomelo", "Remolacha", "Romero", "Rúcula", "Sal marina/Himalaya", "Stevia hoja", "Té verde", "Tomillo"], ["Aceite de coco", "Aceite de lino", "Aceitunas caseras", "Acelga", "Agua botella cristal", "Agua de pozo", "Anís", "Berenjena", "Berro", "Canela", "Cebolla", "Cebolletas", "Coco", "Coliflor", "Cúrcuma", "Endibia", "Endivia", "flores comestibles", "Guisantes", "Hinojo (semilla y bulbo)", "Jengibre", "Judias negras", "Judias verdes", "Judías verdes", "Kéfir", "Kombucha", "Leche vegetal ecológica", "Lechuga", "Lentejas", "Nuez", "Panal", "Patata", "piel de manzana", "Pimentón", "Pimienta", "pimiento rojo", "Propóleo", "Rábano", "Raíz de regaliz", "Repollo", "Semilla de calabaza", "Sésamo", "Tofu", "Tomate", "Zanahoria"], ["Alcachofa", "Alioli casero", "Alubias", "Amaranto", "Anacardo", "Arándano", "Avellana", "Boniato", "Cacahuete crudo", "Calabaza", "Cardo", "Castaña", "Centeno", "Cereza", "Chirivía", "Colinabo", "Dátil", "Encurtidos vinagre manzana", "Espárrago blanco", "Espelta", "Frambuesa", "Fresas", "Fruta seca", "Gelatina alga", "Granada", "Grosella", "Guayaba", "Habas", "Higo seco", "Huevos camperos", "Kiwi", "Levadura de cerveza", "Lúpulo", "Mandarina", "Mango", "Manzana", "Mayonesa casera", "Melón", "Mermelada casera", "Miel ecológica", "Mijo", "Moras", "Nabo", "Naranja", "Nectarina", "Orejones", "Papaya", "Pasas", "Pepinillo", "Pimiento naranja/amarillo", "Piña", "Piñones", "Pipas de girasol", "Pistacho", "Pitahaya", "Puerro", "Quinoa", "raices comestibles", "Salmón", "Salsa tomate casero", "Salvado de trigo", "Sandía", "Semilla soja", "Semillas", "Té rojo", "Trigo sarraceno", "Vinagre manzana", "Zumos con limón"], ["Aceite girasol", "Aceite oliva normal", "Aceitunas", "Agua clorada", "Agua con gas", "Agua del grifo", "Albaricoque", "Alioli comercial", "Almeja", "Arroz integral", "Avena", "Cacahuete frito", "Calamar", "Caqui", "Carne blanca", "Cerveza ecológica", "champiñon", "Chirimoya", "Chocolate negro puro", "Ciruela", "Clochina", "Cuajada", "Harinas integrales", "Hueso jamón", "Huevos", "Jamón ibérico", "Leche vegetal no ecológica", "Mantequilla", "Melocotón", "Nata", "Nectarina", "Paraguayo", "Pera", "Pescado blanco", "Plátano", "Pulpo", "Queso tierno", "Raspas pescado", "Salsa soja", "Sepia", "Trigo", "Uvas", "Vino reserva", "Yogur casero", "Zumos naturales"], ["Alcohol", "Arroz blanco", "Azucar", "Cacao", "Café", "Carne roja", "Cerdo carne", "Cerdo grasa", "Chocolate azucarado", "Edulcorantes", "Embutidos", "En almíbar", "Enlatados", "Frituras", "Gelatina", "Harinas blancas", "Ketchup", "Kikos", "Leche animal", "Licores", "Marisco", "Mermelada industrial", "Miel industrial", "Mostaza", "Órganos internos", "Palomitas", "Pasta no integral", "Pescado azul", "Queso curado", "Rebozados", "Refrescos", "Sal refinada", "Salsa tomate industrial", "Té negro", "Yogur industrial", "Zumo industrial"]];
+const titles = ["Muy alcalinizantes", "Alcalinizantes moderados", "Neutros", "Moderadamente acidificantes", "Muy acidificantes"];
+const accents = ["#24764b","#6c9c42","#c28b24","#d97732","#c84c4c"];
+const tints = ["#e7f2e9","#eef5e7","#fbf3df","#fff0e4","#fbeaea"];
+const photos = [
+ "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80",
+ "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=700&q=80",
+ "https://images.unsplash.com/photo-1518843875459-f738682238a6?auto=format&fit=crop&w=700&q=80",
+ "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=700&q=80",
+ "https://images.unsplash.com/photo-1603048297172-c92544798d5a?auto=format&fit=crop&w=700&q=80"
+];
+const emojiFor = name => {
+ const s=name.toLocaleLowerCase("es");
+ if(/aguacate/.test(s)) return "🥑";
+ if(/lim[oó]n|lima|naranja|mandarina|pomelo/.test(s)) return "🍋";
+ if(/manzana|pera|pl[aá]tano|fresa|cereza|uva|mango|kiwi|piña|papaya|mel[oó]n|sand[ií]a|granada|ar[aá]ndano|frambuesa|mora|fruta/.test(s)) return "🍎";
+ if(/pescado|salm[oó]n|at[uú]n|bacalao|pulpo|sepia|calamar|almeja|marisco/.test(s)) return "🐟";
+ if(/carne|cerdo|jam[oó]n|embutido|ternera/.test(s)) return "🥩";
+ if(/agua|infusi[oó]n|caf[eé]|t[eé]|zumo|vino|cerveza/.test(s)) return "🥤";
+ if(/semilla|nuez|almendra|avellana|pistacho|piñ[oó]n|anacardo|cacahuete|pipa/.test(s)) return "🥜";
+ if(/arroz|pasta|trigo|avena|quinoa|mijo|centeno|harina/.test(s)) return "🌾";
+ if(/ajo/.test(s)) return "🧄";
+ if(/cebolla|puerro/.test(s)) return "🧅";
+ if(/tomate/.test(s)) return "🍅";
+ if(/zanahoria/.test(s)) return "🥕";
+ if(/br[oó]coli|coliflor|col|repollo|kale|coles/.test(s)) return "🥦";
+ if(/seta|champiñ[oó]n/.test(s)) return "🍄";
+ if(/huevo/.test(s)) return "🥚";
+ if(/queso|leche|yogur|k[eé]fir|mantequilla/.test(s)) return "🧀";
+ if(/patata|boniato/.test(s)) return "🥔";
+ if(/aceite/.test(s)) return "🫒";
+ return "🥬";
+};
+const main=document.getElementById("main");
+const nav=document.getElementById("nav");
+const empty=document.getElementById("empty");
+data.forEach((items,i)=>{
+ const link=document.createElement("a");link.href="#nivel-"+(i+1);link.textContent="Nivel "+(i+1);nav.append(link);
+ const section=document.createElement("section");section.className="level";section.id="nivel-"+(i+1);
+ section.style.setProperty("--accent",accents[i]);section.style.setProperty("--tint",tints[i]);
+ section.style.setProperty("--level-image","url('"+photos[i]+"')");
+ const head=document.createElement("div");head.className="level-head";
+ head.innerHTML='<div class="level-number">'+(i+1)+'</div><div><h2 class="level-title">'+titles[i]+'</h2><div class="level-count">'+items.length+' alimentos</div></div>';
+ const list=document.createElement("div");list.className="foods";
+ items.forEach(name=>{
+   const row=document.createElement("div");row.className="food";row.dataset.food=name.toLocaleLowerCase("es");
+   const icon=document.createElement("span");icon.className="food-emoji";icon.textContent=emojiFor(name);
+   const label=document.createElement("span");label.className="food-name";label.textContent=name;
+   row.append(icon,label);list.append(row);
+ });
+ section.append(head,list);main.insertBefore(section,empty);
+});
+const input=document.getElementById("search");
+const counter=document.getElementById("counter");
+const sections=[...document.querySelectorAll(".level")];
+const total=data.reduce((sum,items)=>sum+items.length,0);
+counter.textContent=total+" alimentos";
+input.addEventListener("input",()=>{
+ const q=input.value.trim().toLocaleLowerCase("es");let shown=0;
+ sections.forEach(section=>{
+   let count=0;
+   section.querySelectorAll(".food").forEach(row=>{
+     const match=!q||row.dataset.food.includes(q);row.hidden=!match;if(match){count++;shown++;}
+   });
+   section.hidden=count===0;
+   section.querySelector(".level-count").textContent=count+" alimentos"+(q?" encontrados":"");
+ });
+ counter.textContent=shown+" / "+total;
+ empty.style.display=shown?"none":"block";
+});
+</script>
+</body>
+</html>
